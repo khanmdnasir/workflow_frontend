@@ -5,7 +5,6 @@ import styles from '@/assets/styles/login.module.css';  // Import CSS module
 import PublicRoute from '@/components/publicRoute';
 import Link from 'next/link';
 import axios from '@/store/axios';
-import { AxiosError } from 'axios';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -24,7 +23,7 @@ const RegisterPage = () => {
       const response = await axios.post('/api/register/', { "username": username, "email": email, "password": password }); // Backend login endpoint
       console.log("response", response);
       setSuccess("User created succesfully!");
-    } catch (error: AxiosError) {
+    } catch (error) {
       console.log(error);
       setError(error?.message);
     }

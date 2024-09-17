@@ -2,7 +2,6 @@
 "use client";
 import Layout from '@/components/Layout';
 import PrivateRoute from '@/components/privateRoute';
-import PublicRoute from '@/components/publicRoute';
 
 export default function HomePage() {
   return (
