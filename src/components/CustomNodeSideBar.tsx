@@ -4,12 +4,17 @@ import StartNode from './StartNode';
 import ProcessNode from './ProcessNode';
 import ConditionNode from './ConditionNode';
 import EndNode from './EndNode';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 
 interface PropsTypes {
   onSubmit: () => void;
+  loading: boolean;
+  success: string;
+  error: string;
+  name: string;
+  handleName: (value: string) => void;
 }
-function CustomNodeSideBar({ onSubmit }: PropsTypes) {
+function CustomNodeSideBar({ onSubmit,loading, success, error, name, handleName }: PropsTypes) {
   const onDragStart = (event: React.DragEvent, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
     event.dataTransfer.effectAllowed = 'move';
@@ -17,8 +22,10 @@ function CustomNodeSideBar({ onSubmit }: PropsTypes) {
 
   return (
     <aside style={{ padding: '10px', width: '150px', borderRight: '1px solid #ddd', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      
-      <Button type="primary" onClick={onSubmit}>Save</Button>
+      {success && <p style={{color: 'blue'}}>{success}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <Input placeholder="Document Name" style={{ textAlign: 'center', marginBottom: 5 }} onChange={(e) => handleName(e.target.value)} value={name} />
+      <Button type="primary" onClick={onSubmit} disabled={loading}>{loading ? "Saving" : "Save"}</Button>
       <div className="description"><p style={{ color: 'black' }}>Drag these nodes to the canvas:</p></div>
           <StartNode onDragStart={onDragStart} />
           <ConditionNode onDragStart={onDragStart} />

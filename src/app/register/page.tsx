@@ -3,33 +3,30 @@
 import React, { useState } from 'react';
 import styles from '@/assets/styles/login.module.css';  // Import CSS module
 import PublicRoute from '@/components/publicRoute';
-import { useDispatch } from 'react-redux';
-import { login } from '@/store/authSlice';
 import Link from 'next/link';
-import { AppDispatch } from '@/store/store';
 import axios from '@/store/axios';
+import { AxiosError } from 'axios';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch<AppDispatch>();
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("handl e login");
+    
     setLoading(true);
     
     try {
-      const response = await axios.post('/api/login/', { "username": username, "password": password }); // Backend login endpoint
+      const response = await axios.post('/api/register/', { "username": username, "email": email, "password": password }); // Backend login endpoint
       console.log("response", response);
-      const { token, user } = response.data;
-      localStorage.setItem('token', token); // Store the token in localStorage
-      dispatch(login({"user": user, "token": token}));
-    } catch (error) {
+      setSuccess("User created succesfully!");
+    } catch (error: AxiosError) {
       console.log(error);
-      setError(error?.response?.data?.error);
+      setError(error?.message);
     }
 
     setLoading(false);
@@ -39,16 +36,28 @@ const LoginPage = () => {
     <PublicRoute>
       <div className={styles.container}>
         <div className={styles.loginBox}>
-          <h1 className={styles.title}>Login</h1>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <form onSubmit={handleLogin}>
+          <h1 className={styles.title}>Register</h1>
+          {success && <p className={styles.success}>{success}</p>}
+          {error && <p className={styles.error}>{error}</p>}
+          <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
-              <label htmlFor="username">username</label>
+              <label htmlFor="username">Username</label>
               <input
-                type="text"
+                type="username"
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
+                style={{ color: 'black'}}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 style={{ color: 'black'}}
               />
@@ -65,11 +74,11 @@ const LoginPage = () => {
               />
             </div>
             <button type="submit" className={styles.loginButton} disabled={loading}>
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
           </form>
 
-        <p>No account? <Link href="/register">Sign In</Link></p>
+        <p>Already have an account? <Link href="/login">Login</Link></p>
 
         </div>
       </div>
@@ -77,4 +86,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
