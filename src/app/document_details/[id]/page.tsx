@@ -91,7 +91,7 @@ function FlowDetails({params}) {
         setName(value);
     }
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async(e: any) => {
         e.preventDefault();
         setError('');
         setSuccess('');
