@@ -17,7 +17,7 @@ const nodeTypes = {
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
-function FlowDetails({params}) {
+function FlowDetails({ params }: { params: { id: string}}) {
     const [name, setName] = useState('');
     const [nodes, setNodes] = useState<Node[]>(initialNodes);
     const [edges, setEdges] = useState<Edge[]>(initialEdges);
