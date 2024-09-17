@@ -23,13 +23,17 @@ const LoginPage = () => {
     
     try {
       const response = await axios.post('/api/login/', { "username": username, "password": password }); // Backend login endpoint
-      console.log("response", response);
-      const { token, user } = response.data;
-      localStorage.setItem('token', token); // Store the token in localStorage
-      dispatch(login({"user": user, "token": token}));
-    } catch (error) {
-      console.log(error);
-      setError(error?.response?.data?.error);
+      if (response.status !== 200) {
+        setError(response?.data?.error);
+      }
+      else {
+        const { token, user } = response.data;
+        localStorage.setItem('token', token); // Store the token in localStorage
+        dispatch(login({"user": user, "token": token}));
+      }
+      
+    } catch (e) {
+      setError((e as Error).message)
     }
 
     setLoading(false);

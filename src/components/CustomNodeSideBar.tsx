@@ -7,7 +7,7 @@ import EndNode from './EndNode';
 import { Button, Input } from 'antd';
 
 interface PropsTypes {
-  onSubmit: () => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   loading: boolean;
   success: string;
   error: string;
@@ -25,7 +25,7 @@ function CustomNodeSideBar({ onSubmit,loading, success, error, name, handleName 
       {success && <p style={{color: 'blue'}}>{success}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <Input placeholder="Document Name" style={{ textAlign: 'center', marginBottom: 5 }} onChange={(e) => handleName(e.target.value)} value={name} />
-      <Button type="primary" onClick={onSubmit} disabled={loading}>{loading ? "Saving" : "Save"}</Button>
+      <Button type="primary" onClick={(e)=>onSubmit} disabled={loading}>{loading ? "Saving" : "Save"}</Button>
       <div className="description"><p style={{ color: 'black' }}>Drag these nodes to the canvas:</p></div>
           <StartNode onDragStart={onDragStart} />
           <ConditionNode onDragStart={onDragStart} />

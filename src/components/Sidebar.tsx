@@ -28,7 +28,7 @@ const Sidebar = ({ open, handleDrawer }: SidebarProps) => {
       const response = await axiosInstance.get('/api/documents/'); // Backend login endpoint
       console.log("response", response);
       setItems(response.data);
-    } catch (error: AxiosError) {
+    } catch (error) {
       console.log(error);
     }
     }

@@ -17,7 +17,7 @@ const nodeTypes = {
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
-function FlowDetails({params}) {
+function FlowDetails({ params }: { params: { id: string}}) {
     const [name, setName] = useState('');
     const [nodes, setNodes] = useState<Node[]>(initialNodes);
     const [edges, setEdges] = useState<Edge[]>(initialEdges);
@@ -101,9 +101,8 @@ function FlowDetails({params}) {
             const response = await axiosInstance.put(`api/document/${params.id}/`, { "name": name, "nodes": nodes, "edges": edges}); // Backend login endpoint
         console.log("response", response);
         setSuccess("Document updated succesfully!");
-        } catch (error: AxiosError) {
-        console.log(error);
-        setError(error?.message);
+        } catch (e) {
+            setError((e as Error).message);
         }
 
         setLoading(false);
