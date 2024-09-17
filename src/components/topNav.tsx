@@ -20,9 +20,8 @@ const Navbar = ({ handleDrawer }: NavbarProps) => {
       <Header>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
             <Menu.Item key="1" >
-                {isAuthenticated ?
-                    <Link href="/dashboard">Dashboard</Link>:<Link href="/">Workflow</Link>
-                }
+                <Link href="/">Workflow</Link>
+                
             </Menu.Item>
             <Menu.Item key="2" icon={<MenuUnfoldOutlined />} onClick={handleDrawer}>
             </Menu.Item>

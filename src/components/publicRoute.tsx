@@ -15,7 +15,7 @@ const PublicRoute = ({ children }: PublicRouteProps) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/dashboard'); // Redirect to dashboard or home if logged in
+      router.push('/'); // Redirect to dashboard or home if logged in
     }
   }, [isAuthenticated, router]);
 

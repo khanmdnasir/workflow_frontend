@@ -5,6 +5,7 @@ import '@xyflow/react/dist/style.css';
 import Layout from '@/components/Layout';
 import { StartNode, ProcessNode, ConditionNode, EndNode } from '@/components/NodeComponents';
 import CustomNodeSideBar from '@/components/CustomNodeSideBar';
+import axiosInstance from '@/store/axios';
 
 const nodeTypes = {
   start: StartNode,
@@ -17,8 +18,12 @@ const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
 function Flow() {
+  const [name, setName] = useState('Document');
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -63,15 +68,32 @@ function Flow() {
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
-  const onSubmit = () => {
-    console.log("nodes", nodes);
-    console.log("edges", edges)
+  const handleName = (value: string) => {
+    setName(value)
   }
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setLoading(true);
+    
+    try {
+      const response = await axiosInstance.post('/api/documents/', { "name": name, "nodes": nodes, "edges": edges}); // Backend login endpoint
+      console.log("response", response);
+      setSuccess("Document saved succesfully!");
+    } catch (error: AxiosError) {
+      console.log(error);
+      setError(error?.message);
+    }
+
+    setLoading(false);
+  };
 
   return (
     <Layout>
       <div style={{ display: 'flex', height: '90vh'}}>
-        <CustomNodeSideBar onSubmit={onSubmit} />
+        <CustomNodeSideBar onSubmit={handleSubmit} loading={loading} success={success} error={error} name={name} handleName={handleName} />
         <div
           style={{ height: '100%', flexGrow: 1, border: '1px solid #ddd' }}
           onDrop={onDrop}

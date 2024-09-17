@@ -1,17 +1,18 @@
 // app/page.js (Public route example)
 "use client";
 import Layout from '@/components/Layout';
+import PrivateRoute from '@/components/privateRoute';
 import PublicRoute from '@/components/publicRoute';
 
 export default function HomePage() {
   return (
-    <PublicRoute>
+    <PrivateRoute>
       <Layout>
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 
           <h1>Home Page - Public</h1>
         </div>
       </Layout>
-    </PublicRoute>
+    </PrivateRoute>
   );
 }
