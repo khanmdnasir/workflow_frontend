@@ -6,7 +6,6 @@ import Layout from '@/components/Layout';
 import { StartNode, ProcessNode, ConditionNode, EndNode } from '@/components/NodeComponents';
 import CustomNodeSideBar from '@/components/CustomNodeSideBar';
 import axiosInstance from '@/store/axios';
-import { GetServerSideProps } from 'next';
 
 const nodeTypes = {
   start: StartNode,
