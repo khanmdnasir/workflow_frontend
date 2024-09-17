@@ -82,9 +82,8 @@ function Flow() {
       const response = await axiosInstance.post('/api/documents/', { "name": name, "nodes": nodes, "edges": edges}); // Backend login endpoint
       console.log("response", response);
       setSuccess("Document saved succesfully!");
-    } catch (error) {
-      console.log(error);
-      setError(error?.message);
+    } catch (e) {
+      setError((e as Error).message);
     }
 
     setLoading(false);

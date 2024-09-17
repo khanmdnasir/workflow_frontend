@@ -23,9 +23,8 @@ const RegisterPage = () => {
       const response = await axios.post('/api/register/', { "username": username, "email": email, "password": password }); // Backend login endpoint
       console.log("response", response);
       setSuccess("User created succesfully!");
-    } catch (error) {
-      console.log(error);
-      setError(error?.message);
+    } catch (e) {
+      setError((e as Error).message);
     }
 
     setLoading(false);
