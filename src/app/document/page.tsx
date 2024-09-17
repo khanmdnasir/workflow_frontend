@@ -72,7 +72,7 @@ function Flow() {
     setName(value)
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -82,7 +82,7 @@ function Flow() {
       const response = await axiosInstance.post('/api/documents/', { "name": name, "nodes": nodes, "edges": edges}); // Backend login endpoint
       console.log("response", response);
       setSuccess("Document saved succesfully!");
-    } catch (error: AxiosError) {
+    } catch (error) {
       console.log(error);
       setError(error?.message);
     }
